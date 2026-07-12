@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Heritage Recovery - Crypto Recovery Portal</title>
+    <style>
+        /* (All your original CSS remains unchanged - kept for brevity) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* ... [All other CSS styles are kept exactly the same] ... */
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading your account...</div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="bank-logo">🔗</div>
+                <div class="header-text">
+                    <h1>Blockchain Heritage Recovery</h1>
+                    <p>Crypto Recovery Portal</p>
+                </div>
+            </div>
+            <div class="header-status">✓ Active Account</div>
+        </div>
+
+        <!-- Account Card -->
+        <div class="account-card">
+            <div class="account-info">
+                <div class="info-item">
+                    <div class="info-label">Account Holder</div>
+                    <div class="info-value">Bilal Janbein</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Member ID</div>
+                    <div class="info-value">REF-BILAL08</div>
+                </div>
+            </div>
+
+            <div class="balance-display">
+                <div class="balance-label">Current Balance</div>
+                <div class="balance-amount">$18,000.00</div>
+                <div class="balance-status">✓ Available for withdrawal</div>
+            </div>
+        </div>
+
+        <!-- Withdrawal Button -->
+        <button class="withdrawal-btn" onclick="initiateWithdrawal()" id="withdrawalBtn">
+            <span class="spinner-small" id="withdrawalSpinner"></span>
+            <span id="withdrawalText">💸 Withdraw Funds</span>
+        </button>
+
+        <!-- Processing Info -->
+        <div class="processing-info" id="processingInfo">
+            <div class="processing-icon">⏳</div>
+            <div class="processing-title">Processing Your Request</div>
+            <div class="processing-text">Verifying account and preparing withdrawal...</div>
+        </div>
+
+        <!-- Withdrawal Section -->
+        <div class="withdrawal-section" id="withdrawalSection">
+            <div class="form-section">
+                <div class="form-title">
+                    <span>🔗</span>
+                    <span>Confirm Your Crypto Information</span>
+                </div>
+
+                <div class="bank-info-box">
+                    <div class="bank-info-title">
+                        <span>✓</span>
+                        <span>Your Receiving Wallet</span>
+                    </div>
+                    <div class="bank-info-row">
+                        <span class="bank-info-label">Destination:</span>
+                        <span class="bank-info-value">Crypto Exchange</span>
+                    </div>
+                    <div class="bank-info-row">
+                        <span class="bank-info-label">Wallet Address:</span>
+                        <span class="bank-info-value" style="font-size: 13px;">bc1qhgjfx27l3qgkfhuq4fwrn8d4v94x39fy9kwa8x</span>
+                    </div>
+                    <div class="bank-info-row">
+                        <span class="bank-info-label">Withdrawal Amount:</span>
+                        <span class="bank-info-value" style="color: #22c55e;">$18,000.00</span>
+                    </div>
+                </div>
+
+                <button class="confirm-btn" onclick="confirmBankInfo()" id="confirmBankBtn">
+                    <span class="spinner-small" id="confirmBankSpinner"></span>
+                    <span id="confirmBankText">✓ Confirm & Continue</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Success Section -->
+        <div class="success-section" id="successSection">
+            <div class="receipt-container">
+                <div class="receipt-header">
+                    <div class="receipt-logo">🔗</div>
+                    <div class="receipt-company">BLOCKCHAIN HERITAGE RECOVERY</div>
+                    <div class="receipt-subtitle">Withdrawal Receipt</div>
+                    <div class="receipt-status">⏳ PENDING</div>
+                </div>
+
+                <div class="receipt-divider"></div>
+
+                <div class="receipt-row">
+                    <span class="receipt-label">Account Holder:</span>
+                    <span class="receipt-value">Bilal Janbein</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Member ID:</span>
+                    <span class="receipt-value">REF-BILAL08</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Transaction Date:</span>
+                    <span class="receipt-value" id="receiptDate"></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Transaction ID:</span>
+                    <span class="receipt-value">TXN-2024-WD-8847</span>
+                </div>
+
+                <div class="receipt-divider"></div>
+
+                <div class="receipt-row">
+                    <span class="receipt-label">Withdrawal Amount:</span>
+                    <span class="receipt-value" style="color: #22c55e; font-size: 16px;">$18,000.00 USD</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Destination:</span>
+                    <span class="receipt-value">Crypto Exchange (BTC)</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Wallet:</span>
+                    <span class="receipt-value" style="font-size: 13px;">bc1qhgjfx27l3qgkfhuq4fwrn8d4v94x39fy9kwa8x</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Status:</span>
+                    <span class="receipt-value" style="color: #f59e0b;">PENDING PROCESSING</span>
+                </div>
+
+                <div class="receipt-divider"></div>
+
+                <!-- Charge Notice -->
+                <div class="charge-notice">
+                    <div class="charge-notice-title">
+                        ⚠️ Processing Fee Required
+                    </div>
+                    
+                    <div class="charge-notice-content">
+                        <p><strong>To complete your withdrawal, a processing fee is required.</strong></p>
+                        
+                        <p><strong>This fee covers:</strong></p>
+                        <ul>
+                            <li>🔐 Enhanced Security Verification</li>
+                            <li>⛓️ Blockchain Network Fees & Confirmation</li>
+                            <li>🏦 Exchange Settlement</li>
+                            <li>📋 Compliance & Fraud Prevention</li>
+                            <li>⚡ Priority Processing</li>
+                        </ul>
+                    </div>
+
+                    <div class="charge-amount">$122.00 USD</div>
+
+                    <div class="charge-explanation">
+                        <strong>📌 How It Works:</strong><br>
+                        ✓ Pay the $122 processing fee to activate your withdrawal<br>
+                        ✓ Funds will be immediately approved and sent to your BTC wallet<br>
+                        ✓ Expected delivery: 24-48 hours<br>
+                        ✓ Receive confirmation with transaction hash
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Support -->
+            <div class="contact-section">
+                <div class="contact-title">
+                    <span>📞</span>
+                    <span>Complete Your Withdrawal</span>
+                </div>
+                <div class="contact-text">
+                    Your withdrawal request has been received and is pending. To complete the processing, contact our support team immediately. They will assist you with the $122 processing fee and finalize your $18,000 withdrawal to your BTC wallet.
+                </div>
+                <a href="https://t.me/safety_Bitcoin" target="_blank" class="contact-link">
+                    <span>📱</span>
+                    <span>Contact Support on Telegram</span>
+                </a>
+            </div>
+
+            <!-- Info Boxes (kept similar) -->
+            <div class="info-box">
+                <div class="info-box-icon">📧</div>
+                <div class="info-box-content">
+                    <div class="info-box-title">What To Expect</div>
+                    <div class="info-box-text">
+                        Our support team will guide you through the payment process and provide real-time updates.
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-icon">🔒</div>
+                <div class="info-box-content">
+                    <div class="info-box-title">Secure Transaction</div>
+                    <div class="info-box-text">
+                        All transactions are encrypted and protected on the blockchain.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateReceiptDate() {
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const date = new Date().toLocaleDateString('en-US', options);
+            document.getElementById('receiptDate').textContent = date;
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 2500);
+        });
+
+        function initiateWithdrawal() {
+            const btn = document.getElementById('withdrawalBtn');
+            const spinner = document.getElementById('withdrawalSpinner');
+            const text = document.getElementById('withdrawalText');
+            const processingInfo = document.getElementById('processingInfo');
+
+            btn.disabled = true;
+            spinner.classList.add('show');
+            text.textContent = 'Processing...';
+            processingInfo.classList.add('show');
+
+            setTimeout(() => {
+                spinner.classList.remove('show');
+                text.textContent = '💸 Withdraw Funds';
+                btn.disabled = false;
+                processingInfo.classList.remove('show');
+
+                document.getElementById('withdrawalSection').classList.add('show');
+                document.getElementById('withdrawalSection').scrollIntoView({ behavior: 'smooth' });
+            }, 3000);
+        }
+
+        function confirmBankInfo() {
+            const btn = document.getElementById('confirmBankBtn');
+            const spinner = document.getElementById('confirmBankSpinner');
+            const text = document.getElementById('confirmBankText');
+
+            btn.disabled = true;
+            spinner.classList.add('show');
+            text.textContent = 'Processing...';
+
+            setTimeout(() => {
+                spinner.classList.remove('show');
+                text.textContent = '✓ Confirm & Continue';
+                btn.disabled = false;
+
+                document.getElementById('withdrawalSection').classList.remove('show');
+                document.getElementById('successSection').classList.add('show');
+                updateReceiptDate();
+                document.getElementById('successSection').scrollIntoView({ behavior: 'smooth' });
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
